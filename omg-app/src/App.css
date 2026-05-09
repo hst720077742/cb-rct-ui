@@ -1,38 +1,180 @@
-.App {
+/* 
+  COIN BANK DESIGN SYSTEM (REFACTORED)
+  Theme: Cyber-Safe Deep Navy & Mint 
+*/
+
+:root {
+  /* Core Tokens */
+  --cb-primary: #1a237e;
+  --cb-primary-light: #283593;
+  --cb-accent: #64ffda;
+  --cb-danger: #c62828;
+  --cb-success: #2e7d32;
+  --cb-bg-main: #f8f9fa;
+  --cb-white: #ffffff;
+  
+  /* 3D & Elevation Tokens */
+  --cb-shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.1);
+  --cb-shadow-md: 0 10px 30px rgba(0, 0, 0, 0.15);
+  --cb-shadow-3d: 0 20px 40px rgba(0, 0, 0, 0.2);
+  --cb-radius: 12px;
+  --cb-transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* --- 1. GLOBAL & 3D ANIMATIONS --- */
+@keyframes cb-float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes cb-shimmer {
+  from { left: -100%; }
+  to { left: 100%; }
+}
+
+@keyframes cb-pulse-secure {
+  0% { box-shadow: 0 0 0 0 rgba(100, 255, 218, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(100, 255, 218, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(100, 255, 218, 0); }
+}
+
+/* --- 2. BASE LAYOUT (Refactored) --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--cb-bg-main);
+  line-height: 1.6;
+}
+
+/* --- 3. 3D INTERACTIVE COMPONENTS --- */
+
+/* The 3D Bank Card */
+.account-card, .stat-card, .feature {
+  background: var(--cb-white);
+  border-radius: var(--cb-radius);
+  padding: 25px;
+  box-shadow: var(--cb-shadow-sm);
+  transition: var(--cb-transition);
+  transform-style: preserve-3d;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.account-card:hover, .stat-card:hover, .feature:hover {
+  transform: translateY(-10px) rotateX(4deg) rotateY(-2deg);
+  box-shadow: var(--cb-shadow-3d);
+  border-color: var(--cb-accent);
+}
+
+/* Interactive Buttons with Shimmer */
+.btn-primary, .auth-button, .deposit-btn {
+  background-color: var(--cb-primary);
+  color: white;
+  padding: 12px 30px;
+  border-radius: 30px;
+  font-weight: bold;
+  position: relative;
+  overflow: hidden;
+  border: none;
+  cursor: pointer;
+  transition: var(--cb-transition);
+  display: inline-block;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.btn-primary:hover {
+  background-color: var(--cb-primary-light);
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(26, 35, 126, 0.3);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  animation: cb-shimmer 3s infinite;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+/* --- 4. MOUSEOVER FEEDBACK --- */
+
+/* Navbar Magnetic Effect */
+.navbar-link {
   color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  position: relative;
+  transition: var(--cb-transition);
 }
 
-.App-link {
-  color: #61dafb;
+.navbar-link:hover {
+  color: var(--cb-accent);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.navbar-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%;
+  width: 0; height: 2px;
+  background: var(--cb-accent);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.navbar-link:hover::after {
+  width: 80%;
+}
+
+/* List Item Hover (Transactions) */
+.transaction-item {
+  transition: all 0.3s ease;
+  border-left: 4px solid var(--cb-primary);
+}
+
+.transaction-item:hover {
+  background: #f0f2ff;
+  transform: translateX(10px);
+  box-shadow: var(--cb-shadow-sm);
+}
+
+/* --- 5. SECURITY VISUALS (Cyber-Attack Prevention) --- */
+
+/* Secure Input Focus */
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--cb-accent) !important;
+  box-shadow: 0 0 0 4px rgba(100, 255, 218, 0.2);
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
+}
+
+/* Critical Alert Pulse */
+.error-message {
+  background-color: #ffebee;
+  color: var(--cb-danger);
+  border: 1px solid var(--cb-danger);
+  animation: cb-pulse-secure 2s infinite;
+}
+
+/* Success "Coin" Animation */
+.success-message {
+  background-color: #e8f5e9;
+  color: var(--cb-success);
+  animation: cb-slide-up 0.5s ease-out;
+}
+
+@keyframes cb-slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- 6. 404 & EMPTY STATES (3D) --- */
+.not-found-number {
+  font-size: 8rem;
+  font-weight: 900;
+  color: var(--cb-primary);
+  animation: cb-float 3s infinite ease-in-out;
+  text-shadow: 10px 10px 20px rgba(0,0,0,0.1);
 }
