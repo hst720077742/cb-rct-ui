@@ -1,2 +1,2 @@
 # cb-rct-ui
-Coinbank React User Interfaces and Prisma ORM
+Coin Bank React User Interfaces and Prisma ORM
