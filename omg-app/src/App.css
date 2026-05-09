@@ -39,6 +39,30 @@
   100% { box-shadow: 0 0 0 0 rgba(100, 255, 218, 0); }
 }
 
+@keyframes cb-slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Respect users' motion preferences */
+@media (prefers-reduced-motion: no-preference) {
+  .not-found-number {
+    animation: cb-float 3s infinite ease-in-out;
+  }
+
+  .btn-primary::after {
+    animation: cb-shimmer 3s infinite;
+  }
+
+  .error-message {
+    animation: cb-pulse-secure 2s infinite;
+  }
+
+  .success-message {
+    animation: cb-slide-up 0.5s ease-out;
+  }
+}
+
 /* --- 2. BASE LAYOUT (Refactored) --- */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -89,13 +113,17 @@ body {
   box-shadow: 0 5px 15px rgba(26, 35, 126, 0.3);
 }
 
+.btn-primary:focus-visible {
+  outline: 2px solid var(--cb-accent);
+  outline-offset: 2px;
+}
+
 .btn-primary::after {
   content: '';
   position: absolute;
   top: 0; left: -100%;
   width: 100%; height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-  animation: cb-shimmer 3s infinite;
 }
 
 /* --- 4. MOUSEOVER FEEDBACK --- */
@@ -127,6 +155,11 @@ body {
   width: 80%;
 }
 
+.navbar-link:focus-visible {
+  outline: 2px solid var(--cb-accent);
+  outline-offset: 2px;
+}
+
 /* List Item Hover (Transactions) */
 .transaction-item {
   transition: all 0.3s ease;
@@ -143,11 +176,12 @@ body {
 
 /* Secure Input Focus */
 input:focus, select:focus {
-  outline: none;
   border-color: var(--cb-accent) !important;
   box-shadow: 0 0 0 4px rgba(100, 255, 218, 0.2);
   transform: translateY(-2px);
   transition: all 0.2s ease;
+  outline: 2px solid var(--cb-accent);
+  outline-offset: 2px;
 }
 
 /* Critical Alert Pulse */
@@ -155,14 +189,12 @@ input:focus, select:focus {
   background-color: #ffebee;
   color: var(--cb-danger);
   border: 1px solid var(--cb-danger);
-  animation: cb-pulse-secure 2s infinite;
 }
 
 /* Success "Coin" Animation */
 .success-message {
   background-color: #e8f5e9;
   color: var(--cb-success);
-  animation: cb-slide-up 0.5s ease-out;
 }
 
 @keyframes cb-slide-up {
@@ -175,6 +207,5 @@ input:focus, select:focus {
   font-size: 8rem;
   font-weight: 900;
   color: var(--cb-primary);
-  animation: cb-float 3s infinite ease-in-out;
   text-shadow: 10px 10px 20px rgba(0,0,0,0.1);
 }
